@@ -13,8 +13,6 @@ import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -27,7 +25,8 @@ public class StudentCrudView implements Serializable {
 
     @Inject
 //    @Named("memoryStudentService")
-    @Named("firebaseHttpClientStudentService")
+//    @Named("firebaseHttpClientStudentService")
+    @Named("firebaseMultiTenantHttpClientStudentService")
     private StudentService studentService;
 
     /**
@@ -89,7 +88,7 @@ public class StudentCrudView implements Serializable {
         try {
             var faker = new Faker();
             selectedStudent = Student.of(faker);
-            selectedStudent.setId(selectedId);
+//            selectedStudent.setId(selectedId);
         } catch (Exception e) {
             Messages.addGlobalError("Error generating data {0}", e.getMessage());
         }
