@@ -90,31 +90,6 @@ public class TaskJpaServiceIT { // The class must be declared as public
     @Named("jakartaPersistenceTaskService")
     private TaskService taskService;
 
-//    @Resource
-//    private UserTransaction beanManagedTransaction;
-
-    @BeforeAll
-    static void beforeAllTests() {
-        // code to execute before all tests in the current test class
-    }
-
-    @AfterAll
-    static void afterAllTests() {
-        // code to execute after all tests in the current test class
-    }
-
-    @BeforeEach
-    void beforeEachTestMethod() throws SystemException, NotSupportedException {
-        // Start a new transaction
-//        beanManagedTransaction.begin();
-    }
-
-    @AfterEach
-    void afterEachTestMethod() throws SystemException {
-        // Rollback the transaction
-//        beanManagedTransaction.rollback();
-    }
-
     @Test
     @Order(1)
     void shouldInjectTaskJpaService() {
@@ -163,7 +138,8 @@ public class TaskJpaServiceIT { // The class must be declared as public
 
     /**
      * Use TransactionMode.DISABLED when a test needs to verify behavior across the service’s own transaction boundaries.
-     * A test-wide rollback transaction can keep entities managed and make an update test pass without proving that the update operation works correctly.
+     * A test-wide rollback transaction can keep entities managed
+     * and make an update test pass without proving that the update operation works correctly.
      */
     @Transactional(TransactionMode.DISABLED)
     @Order(4)
