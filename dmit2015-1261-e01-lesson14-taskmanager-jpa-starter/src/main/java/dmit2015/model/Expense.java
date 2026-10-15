@@ -27,18 +27,18 @@ public class Expense {
     private Integer version;
 
     private LocalDateTime createTime;
-    private LocalDateTime updatedTime;
+    private LocalDateTime updateTime;
 
     @PrePersist
     void onCreate() {
         LocalDateTime now = LocalDateTime.now();
         createTime = now;
-        updatedTime = now;
+        updateTime = now;
     }
 
     @PreUpdate
     void onUpdate() {
-        updatedTime = LocalDateTime.now();
+        updateTime = LocalDateTime.now();
     }
 
     public static Expense of(Faker faker) {

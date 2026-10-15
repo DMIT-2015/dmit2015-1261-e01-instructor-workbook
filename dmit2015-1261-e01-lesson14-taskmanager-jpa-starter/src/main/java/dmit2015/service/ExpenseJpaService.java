@@ -14,17 +14,12 @@ import java.util.Optional;
 @ApplicationScoped
 public class ExpenseJpaService implements ExpenseService {
 
-    // Assign a unitName if there are more than one persistence unit defined in persistence.xml
-    @PersistenceContext //(unitName="pu-name-in-persistence.xml")
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional
     public Expense createExpense(Expense expense) {
-        // If the primary key is not an identity column then write code below here to
-        // 1) Generate a new primary key value
-        // 2) Set the primary key value for the new entity
-
         entityManager.persist(expense);
         return expense;
     }
@@ -60,8 +55,10 @@ public class ExpenseJpaService implements ExpenseService {
         } else {
             var existingExpense = optionalExpense.orElseThrow();
             // Update only properties that is editable by the end user
-            // TODO: Copy each edit property from expense to existingExpense
-            // existingExpense.setPropertyName(expense.getPropertyName());
+
+            existingExpense.setDescription(expense.getDescription());
+            existingExpense.setAmount(expense.getAmount());
+            existingExpense.setDate(expense.getDate());
 
             expense = entityManager.merge(existingExpense);
         }
