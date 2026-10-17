@@ -133,7 +133,7 @@ public class RegionJpaServiceIT { // The class must be declared as public
         Optional<Region> optionalUpdatedRegion = regionService.getRegionById(updatedRegion.getId());
         assertThat(optionalUpdatedRegion.isPresent())
                 .isTrue();
-        var existingUpdatedRegion = optionalRegion.orElseThrow();
+        var existingUpdatedRegion = optionalUpdatedRegion.orElseThrow();
         assertThat(existingUpdatedRegion.getRegionName()).isEqualTo("Canadas");
 
     }
