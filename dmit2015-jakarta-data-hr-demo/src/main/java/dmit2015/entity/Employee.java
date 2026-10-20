@@ -76,4 +76,8 @@ public class Employee {
     private Set<JobHistory> jobHistories = new LinkedHashSet<>();
 
 
+    public String getFullName() {
+        return String.format("%s %s", firstName, lastName);
+    }
+
 }
