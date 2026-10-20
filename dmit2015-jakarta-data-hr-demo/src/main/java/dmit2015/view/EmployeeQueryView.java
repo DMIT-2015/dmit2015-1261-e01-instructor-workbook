@@ -4,6 +4,7 @@ import dmit2015.entity.Department;
 import dmit2015.entity.Employee;
 import dmit2015.repository.HumanResourcesRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.data.Limit;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -40,7 +41,7 @@ public class EmployeeQueryView implements Serializable {
     private transient HumanResourcesRepository hrRepository;
 
     public List<Department> completeDepartment(String query) {
-        return hrRepository.departmentsBy("%" + query + "%");
+        return hrRepository.departmentsBy("%" + query + "%", Limit.of(5));
     }
     public void onSearchByDepartment() {
         try {
