@@ -68,6 +68,7 @@ public class TodoItemDtoResource {
         return Response.created(todoItemsUri).build();
     }
 
+    @RolesAllowed({"Sales","Shipping","Administration"})
     @GET    // GET: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response getTodoItem(@PathParam("id") Long id) {
@@ -77,6 +78,15 @@ public class TodoItemDtoResource {
             throw new NotFoundException();
         }
         TodoItem existingTodoItem = optionalTodoItem.get();
+
+        String username = optionalUsername.getValue().orElseThrow();
+        Set<String> groups  = optionalGroups.getValue().orElseThrow();
+        if (!groups.contains("Administration")) {
+            if (!username.equalsIgnoreCase(existingTodoItem.getUsername())) {
+                throw new ForbiddenException();
+            }
+        }
+
 //        TodoItemDto dto = mapToDto(existingTodoItem);
         TodoItemDto dto = TodoItemMapper.INSTANCE.toDto(existingTodoItem);
 
@@ -105,6 +115,7 @@ public class TodoItemDtoResource {
 
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @PUT    // PUT: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response updateTodoItem(@PathParam("id") Long id, TodoItemDto dto) {
@@ -125,6 +136,12 @@ public class TodoItemDtoResource {
         }
 
         TodoItem existingTodoItem = optionalTodoItem.orElseThrow();
+
+        String username = optionalUsername.getValue().orElseThrow();
+        if (!username.equalsIgnoreCase(existingTodoItem.getUsername())) {
+            throw new ForbiddenException();
+        }
+
 
         if (!Objects.equals(existingTodoItem.getVersion(), dto.getVersion())) {
             throw new ClientErrorException(
@@ -158,6 +175,7 @@ public class TodoItemDtoResource {
                 .build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @DELETE // DELETE: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
@@ -165,6 +183,12 @@ public class TodoItemDtoResource {
 
         if (optionalTodoItem.isEmpty()) {
             throw new NotFoundException();
+        }
+
+        TodoItem existingTodoItem = optionalTodoItem.orElseThrow();
+        String username = optionalUsername.getValue().orElseThrow();
+        if (!username.equalsIgnoreCase(existingTodoItem.getUsername())) {
+            throw new ForbiddenException();
         }
 
         todoItemRepository.deleteById(id);
